@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import android.speech.tts.TextToSpeech;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,9 @@ import android.text.Layout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     char move = 'o';
@@ -14,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     int[][] winningPattern = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}, {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, {0, 4, 8}, {2, 4, 6}};
     boolean gameRun = true;
     String msg = "Draw!";
-
+    TextToSpeech textToSpeech;
+    ImageView sound;
+    Integer sound_flag = 1; /*flag variable*/
 
     public void place(View view) {
 
@@ -65,6 +71,9 @@ public class MainActivity extends AppCompatActivity {
             ConstraintLayout dialogue = findViewById(R.id.dialog);
             TextView message = findViewById(R.id.msg);
             message.setText(msg);
+            if (sound_flag == 1){
+                textToSpeech.speak(msg,TextToSpeech.QUEUE_FLUSH,null); }
+
             dialogue.setVisibility(View.VISIBLE);
         }
 
@@ -106,5 +115,31 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sound = findViewById(R.id.sound);
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    textToSpeech.setLanguage(Locale.getDefault());
+                }
+                else{
+                    Toast.makeText(MainActivity.this,"error",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        sound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sound_flag == 1){
+                    sound_flag = 0;
+                    sound.setImageResource(R.drawable.mute);
+                }
+                else{
+                    sound_flag = 1;
+                    sound.setImageResource(R.drawable.unmute);
+                    }
+            }
+        });
+
     }
 }

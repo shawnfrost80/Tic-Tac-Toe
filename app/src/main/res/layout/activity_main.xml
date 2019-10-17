@@ -217,7 +217,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/msg" />
+
+
     </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/sound"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/unmute"/>
+
+
 
 
 </android.support.constraint.ConstraintLayout>
